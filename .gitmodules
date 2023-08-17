@@ -1,0 +1,3 @@
+[submodule "go-rss-aggregator"]
+	path = go-rss-aggregator
+	url = https://github.com/schraderbachar/go-rss-aggregator
