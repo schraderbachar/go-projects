@@ -10,10 +10,10 @@ import (
 
 // creating struct to house our todos
 type Todo struct {
-	ID    int    `json:"id"`
-	Title string `json:"title"`
-	Done  bool   `json:"done"`
-	Body  string `json:"body"`
+	ID     int    `json:"id"`
+	Word   string `json:"word"`
+	Done   bool   `json:"done"`
+	Answer string `json:"answer"`
 }
 
 //we are just storing this in memory

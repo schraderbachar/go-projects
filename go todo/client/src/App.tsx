@@ -1,13 +1,14 @@
-import { Box, List,ThemeIcon } from '@mantine/core'
+import { Box, Accordion, Button } from '@mantine/core'
 import useSWR from "swr"
 import './App.css'
 import AddTodo from './components/AddTodo'
-import { CheckCircleFillIcon } from '@primer/octicons-react'
+import Container from 'react-bootstrap/Container';
+import Navbar from 'react-bootstrap/Navbar';
 
 export interface Todo {
   id: number
-  title: string
-  body: string
+  word: string
+  answer: string
   done: boolean
 }
 
@@ -30,6 +31,12 @@ function App() {
 
 
   return (
+    <>
+    <Navbar className="bg-body-tertiary">
+      <Container>
+        <Navbar.Brand className="justify-content-center">GoLang Practice</Navbar.Brand>
+      </Container>
+    </Navbar>
    <Box sx={() => ({
     padding: "2rem",
     width: "100vw",
@@ -37,24 +44,42 @@ function App() {
     margin: "0 auto",
     color: "#fff"
    })}>
-    <List spacing="xs" size="sm" mb={12} center>
+    <Accordion variant="separated" styles={{
+        item: {
+          // styles added to all items
+          backgroundColor: '#fff',
+          border: '2px solid black',
+          // styles added to expanded item
+          '&[data-active]': {
+            backgroundColor: '#ccc',
+            color: '#000'
+          },
+        },
+
+        chevron: {
+          // styles added to chevron when it should rotate
+          '&[data-rotate]': {
+            transform: 'rotate(-90deg)',
+          },
+        },
+      }}
+    >
     {data?.map(todo => {
-      return <List.Item key={`todo__${todo.id}`}
-      icon={
-        todo.done ? (<ThemeIcon color="teal" size={24} radius="xl">
-          <CheckCircleFillIcon size={20}/>
-        </ThemeIcon>) : (<ThemeIcon color="grey" size={24} radius="xl">
-          <CheckCircleFillIcon size={20}/>
-        </ThemeIcon>)
-      }
-      onClick={() => markDone(todo.id)}
-      >
-        {todo.title}
-      </List.Item>
-    })}
-    </List>
+      return (
+        <>{!todo.done && <Accordion.Item key={todo.id} value={todo.word}>
+            <Accordion.Control>{todo.word}</Accordion.Control>
+            <Accordion.Panel>{todo.answer} {todo.done}
+              <Button color='green' onClick={() => markDone(todo.id)}>Learned</Button>
+            </Accordion.Panel>
+          </Accordion.Item>
+          }
+      </>)
+      })} 
+      </Accordion>
+      <p className='m-5'></p>
     <AddTodo mutate={mutate} />
    </Box>
+   </>
   )
 }
 

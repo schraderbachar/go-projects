@@ -11,13 +11,13 @@ function AddTodo({mutate}: {mutate: KeyedMutator<Todo[]>}) {
 
    const form = useForm({
     initialValues: {
-      title: '',
-      body: '',
+      word: '',
+      answer: '',
     },
 })
 
 
-  async function createTodo(values: {title: string; body: string}){
+  async function createTodo(values: {word: string; answer: string}){
     const updated = await fetch(`${ENDPOINT}/api/todos`, {
         method:'POST',
         headers:{
@@ -27,23 +27,24 @@ function AddTodo({mutate}: {mutate: KeyedMutator<Todo[]>}) {
     }).then((res) => res.json())
     
     mutate(updated)
-    form.reset()
     close
+    form.reset()
+    
 }
 
   return (
     <>
       <Modal opened={opened} onClose={close} title="Authentication">
         <form onSubmit={form.onSubmit(createTodo)}>
-            <TextInput required mb={12} label="todo" placeholder='what do you want to do?' {...form.getInputProps("title")} />
-            <Textarea required mb={12} label="body" placeholder='Tell me more' {...form.getInputProps("body")}/>
+            <TextInput required mb={12} label="Word" placeholder='Enter a word you learned' {...form.getInputProps("word")} />
+            <Textarea required mb={12} label="body" placeholder='Enter the word in english' {...form.getInputProps("answer")}/>
 
-            <Button type='submit'>Create todo</Button>
+            <Button type='submit'>Create Word</Button>
         </form>
       </Modal>
 
       <Group position="center">
-        <Button onClick={open}>Open modal</Button>
+        <Button onClick={open}>Add word</Button>
       </Group>
     </>
   );
